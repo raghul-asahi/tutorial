@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PersonLists from './Person';
 import Input from './UserInput/Input';
 import Output from './UserOutput/Output'
+import Validation from './Validation/Validation';
+import Char from './Char/Char'
 import './App.css';
 
 class App extends Component {
@@ -55,7 +57,18 @@ class UserApp extends Component{
   state={
     defaultOutput : "Raghul",
     containerVisible : false,
-    
+    profiles : [
+      {
+        name: 'Jane Doe',
+        'favorite-game': 'Stardew Valley',
+        subscriber: false
+      },
+      {
+        name: 'John Doe',
+        'favorite-game': 'Dragon Quest XI',
+        subscriber: true
+      }
+    ]
   }
   onChangeEventHandler = (event) => {
     this.setState({
@@ -67,7 +80,12 @@ class UserApp extends Component{
       this.setState({
         containerVisible: !this.state.containerVisible
       })
-    }
+  }
+  onRemoveHandler = (profileIndex) =>{
+    const profiles = [...this.state.profiles];
+    profiles.splice(profileIndex,1);
+    this.setState({profiles:profiles})
+  }
     
   render(){
     const userAppStyle ={
@@ -86,23 +104,85 @@ class UserApp extends Component{
       display:"block",
       margin:"10px auto"
     }
+    const subButton ={
+      backgroundColor:"green",
+      color:"#fff",
+      padding:"15px 25px"
+    }
+    const noSubButton ={
+      backgroundColor:"red",
+      color:"#fff",
+      padding:"15px 25px"
+    }
     let containerBox = null;
     if(this.state.containerVisible){
       containerBox = (
-            <div style={userAppStyle} >
-              <Output default={this.state.defaultOutput}/>
-              <Input change={this.onChangeEventHandler} default={this.state.defaultOutput} />
-
-            </div>
+          <div style={userAppStyle} >
+            <Output default={this.state.defaultOutput}/>
+            <Input change={this.onChangeEventHandler} default={this.state.defaultOutput} />
+          </div>
       )
     }
+    
     return(
       <div className="userapp">
         <button style={btnStyle} onClick={this.onClickShowHandler}>{this.state.containerVisible ? "Click to hide" : "Click to show"}</button>
         {containerBox}
+        
+        <div>
+          {this.state.profiles.map((profile,index) => {
+            return(
+              <div key={index} style={{textAlign :"center"}}>
+              <h1>{profile.name}</h1>
+              <p>{profile['favorite-game']}</p>
+              <button style={profile.subscriber ? subButton : noSubButton}>{profile.subscriber ? "Subscribed" : "Not-Subscribed"}</button>
+              <button style={btnStyle} onClick={()=>this.onRemoveHandler(index)}>Remove</button>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+      
+    )
+  }
+}
+
+class SplitApp extends Component{
+  state={
+    userInput:""
+  }
+  inputEventHandler = (event) => {
+    const currentValue = event.target.value
+    this.setState({
+      userInput:currentValue
+    })
+    console.log(currentValue.split(""))
+  }
+  deleteCharHandler = (index) =>{
+    const text = this.state.userInput.split("");
+    text.splice(index, 1);
+    const joinText = text.join("");
+    this.setState({userInput:joinText})
+
+  }
+  
+  render(){
+    const charList = this.state.userInput.split("").map((char, index) => {
+      return <Char 
+      key={index} 
+      name={char} 
+      click={()=> this.deleteCharHandler(index)}
+      />
+    })
+    return(
+      <div >
+        <input type="text" onChange={this.inputEventHandler} value={this.state.userInput}/>
+        <p>{this.state.userInput}</p>
+        <Validation count={this.state.userInput.length}/>
+        {charList}
       </div>
     )
   }
 }
 
-export default UserApp;
+export default SplitApp;
