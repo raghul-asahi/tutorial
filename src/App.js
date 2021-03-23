@@ -82,7 +82,7 @@ class UserApp extends Component{
       border:"1px solid #ddd",
       color:"yellow",
       backgroundColor:"#000",
-      padding:"10px",
+      padding:"12px",
       display:"block",
       margin:"10px auto"
     }
