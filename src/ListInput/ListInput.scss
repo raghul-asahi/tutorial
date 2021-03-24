@@ -1,0 +1,31 @@
+.inputStyle{
+    margin-bottom: 50px;
+    input{
+        border:1px solid #ddd;
+        padding: 10px 15px;
+        min-width: 250px;
+        margin-right: 25px;
+        font-size: 18px;
+
+        &:focus{
+            outline: none;
+        }
+    }
+    button{
+        padding: 10px 15px;
+        border:1px solid #000;
+        background-color: #fff;
+        color:#000;
+        font-size: 18px;
+        transition: ease 300ms;
+        &:hover{
+            background-color: #000;
+            color:#fff;
+            cursor: pointer;
+            border:1px solid #fff;
+        }
+        &:disabled{
+            opacity: .5;
+        }
+    }
+}

@@ -5,6 +5,9 @@ import Output from './UserOutput/Output'
 import Validation from './Validation/Validation';
 import Char from './Char/Char'
 import './App.css';
+import ListInput from './ListInput/ListInput';
+import ListOutput from './ListOutput/ListOutput'; 
+import styled from 'styled-components';
 
 class App extends Component {
   state ={
@@ -174,10 +177,17 @@ class SplitApp extends Component{
       click={()=> this.deleteCharHandler(index)}
       />
     })
+    const inputStyle={
+      fontSize:"18px",
+      padding:"10px",
+      margin:"15px",
+      border:"1px solid #ddd",
+      width:"auto"
+    }
     return(
       <div >
-        <input type="text" onChange={this.inputEventHandler} value={this.state.userInput}/>
-        <p>{this.state.userInput}</p>
+        <input style={inputStyle} type="text" onChange={this.inputEventHandler} value={this.state.userInput}/>
+        <p style={inputStyle}>{this.state.userInput}</p>
         <Validation count={this.state.userInput.length}/>
         {charList}
       </div>
@@ -185,4 +195,65 @@ class SplitApp extends Component{
   }
 }
 
-export default SplitApp;
+class ListApp extends Component{
+  state={
+    
+    newfruits:[],
+    currentValue :"",
+    buttonDisable:true
+  }
+  onListChangeHandler = (event) =>{
+    const listValue = event.target.value;  
+    // console.log(listValue);
+    this.setState({currentValue:listValue})
+    // console.log(this.state.currentValue)
+    this.setState({buttonDisable:false})
+    
+  }
+  onListClickHandler =(event) =>{    
+    const currentChangeValue = this.state.currentValue;
+    const newfruits = this.state.newfruits;
+    this.setState({currentValue:currentChangeValue})
+    this.setState({newfruits:[...newfruits, currentChangeValue]})
+    // console.log(this.state.newfruits)
+    this.setState({currentValue:""})
+    this.setState({buttonDisable:true})
+  }
+  onListDeleteHandler = (index) => {
+      
+      const cutFruits = this.state.newfruits;
+      cutFruits.splice(index,1);
+      this.setState({newfruits:cutFruits})
+      console.log(cutFruits);
+  }
+  render(){
+    const mainStyle = {
+      textAlign:"center",
+      maxWidth:"500px",
+      margin:"100px auto",
+      minHeight:"500px",
+      padding:"30px",
+      backgroundColor:"#000"
+    }
+    return(
+      <div style={mainStyle}>
+        <h1 style={{color:"#fff"}}>Listing Example</h1>
+        <ListInput click={this.onListClickHandler} data={this.state.buttonDisable} change={this.onListChangeHandler} value={this.state.currentValue}/>
+        
+        <ul className="listStyle">
+          {this.state.newfruits.map((fruit,index) =>{ 
+          return <ListOutput 
+          key={index} 
+          name={fruit}
+          deleteclick={() => this.onListDeleteHandler(index)}
+          
+          />})}
+        </ul>
+        
+      </div>
+      
+    )
+  }
+}
+
+export default ListApp;

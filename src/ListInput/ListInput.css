@@ -1,0 +1,37 @@
+.inputStyle {
+  margin-bottom: 50px;
+}
+
+.inputStyle input {
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  min-width: 250px;
+  margin-right: 25px;
+  font-size: 18px;
+}
+
+.inputStyle input:focus {
+  outline: none;
+}
+
+.inputStyle button {
+  padding: 10px 15px;
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+  font-size: 18px;
+  -webkit-transition: ease 300ms;
+  transition: ease 300ms;
+}
+
+.inputStyle button:hover {
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  border: 1px solid #fff;
+}
+
+.inputStyle button:disabled {
+  opacity: .5;
+}
+/*# sourceMappingURL=ListInput.css.map */
